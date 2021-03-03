@@ -1,5 +1,6 @@
 import { primitives, Quat } from "cc";
 import { CatmullRomCurve3 } from "../curve/CatmullRomCurve3";
+import { Curve } from "../curve/Curve";
 import { Vector3 } from "../curve/util/MathUtils";
 import JLTween from "../tween/JLTween";
 
@@ -39,7 +40,7 @@ export class MeshUtil {
         headAngle?: number;
         /**尾部旋转角度 */
         tailAngle?: number;
-    }): primitives.IGeometry {
+    }): [primitives.IGeometry, Curve<Vector3>] {
         let segment = option.segment || 2;
         let width = option.width || 1;
         let height = option.height || 0;
@@ -105,17 +106,20 @@ export class MeshUtil {
                 section[3].add(up);
             }
 
-            rotSectionPoints(section, forward, rotAngle);
+            rotSectionPoints(section, p1, forward, rotAngle);
         };
         let rotSectionPoints = function (
             section: Array<Vector3>,
+            center: Vector3,
             forward: Vector3,
             rotAngle: number
         ) {
             Quat.fromAxisAngle(qA, forward, rotAngle * DEG2RAD);
 
             for (let i = 0; i < section.length; i++) {
-                Vector3.transformQuat(section[i], qA, section[i]);
+                Vector3.subtract(section[i], center, va);
+                Vector3.transformQuat(va, qA, va);
+                Vector3.add(center, va, section[i]);
             }
         };
         let getSectionPoints = function (
@@ -253,10 +257,11 @@ export class MeshUtil {
 
         // }
 
-        return {
+        trackPoints.length = 0;
+        return [{
             positions: positions,
             normals: normals,
             indices: indices
-        };
+        }, newCurve];
     }
 }
