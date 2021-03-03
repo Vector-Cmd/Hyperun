@@ -1,4 +1,4 @@
-import { Mat4, Vec3 } from "cc";
+import { Mat4, Quat, Vec3 } from "cc";
 
 var _lut = [];
 
@@ -47,6 +47,9 @@ class Vector3 {
     public static add(p1: Vector3, p2: Vector3, out: Vector3) {
         Vec3.add(out.vec3, p1.vec3, p2.vec3);
     }
+    public static scale(v: Vector3, scaler: number, out: Vector3) {
+        Vec3.multiplyScalar(out.vec3, v, scaler);
+    }
     public static distanceSquared(p1: Vector3, p2: Vector3) {
         return Vec3.squaredDistance(p1.vec3, p2.vec3);
     }
@@ -65,9 +68,27 @@ class Vector3 {
     public static transformV3ToV3(v: Vector3, m: Matrix4x4, out: Vector3) {
         Vec3.transformMat4(out.vec3, v.vec3, m.mat4);
     }
+    public static transformQuat(v: Vector3, q: Quat, out: Vector3) {
+        Vec3.transformQuat(out.vec3, v, q);
+    }
 
     public setValue(x: number, y: number, z: number) {
         this.v3.set(x, y, z);
+    }
+    public normalize() {
+        this.v3.normalize();
+    }
+    public scale(scaler: number) {
+        this.v3.multiplyScalar(scaler);
+    }
+    public add(v: Vector3) {
+        this.v3.add(v.vec3);
+    }
+    public fromArray(arr: Array<number>, index: number) {
+        this.v3.set(arr[index], arr[index + 1], arr[index + 2]);
+    }
+    public copyFrom(v: Vector3) {
+        this.v3.set(v.x, v.y, v.z);
     }
     public clone() {
         let newVec3 = new Vector3();
@@ -252,7 +273,9 @@ var MathUtils = {
         } else if (order === "ZYZ") {
             q.set(s2 * s3_1, s2 * c3_1, c2 * s13, c2 * c13);
         } else {
-            console.warn("MathUtils: .setQuaternionFromProperEuler() encountered an unknown order.");
+            console.warn(
+                "MathUtils: .setQuaternionFromProperEuler() encountered an unknown order."
+            );
         }
     }
 };

@@ -29,7 +29,11 @@ export class CubicBezierCurve3 extends Curve<Vector3> {
             v2 = this.v2,
             v3 = this.v3;
 
-        point.setValue(CubicBezier(t, v0.x, v1.x, v2.x, v3.x), CubicBezier(t, v0.y, v1.y, v2.y, v3.y), CubicBezier(t, v0.z, v1.z, v2.z, v3.z));
+        point.setValue(
+            CubicBezier(t, v0.x, v1.x, v2.x, v3.x),
+            CubicBezier(t, v0.y, v1.y, v2.y, v3.y),
+            CubicBezier(t, v0.z, v1.z, v2.z, v3.z)
+        );
 
         return point;
     }

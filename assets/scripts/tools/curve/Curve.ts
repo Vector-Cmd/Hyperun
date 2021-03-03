@@ -62,7 +62,11 @@ export class Curve<T extends Vector3> {
     public getLengths(divisions?: number): number[] {
         if (divisions === undefined) divisions = this.arcLengthDivisions;
 
-        if (this.cacheArcLengths && this.cacheArcLengths.length === divisions + 1 && !this.needsUpdate) {
+        if (
+            this.cacheArcLengths &&
+            this.cacheArcLengths.length === divisions + 1 &&
+            !this.needsUpdate
+        ) {
             return this.cacheArcLengths;
         }
 

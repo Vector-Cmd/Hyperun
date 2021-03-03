@@ -150,7 +150,7 @@ export class CatmullRomCurve3 extends Curve<Vector3> {
         clearPath && (this.points.length = 0);
         this.points = null;
         this.closed = null;
-        this.curveType = null;;
+        this.curveType = null;
         this.tension = null;
         this.isCatmullRomCurve3 = null;
     }

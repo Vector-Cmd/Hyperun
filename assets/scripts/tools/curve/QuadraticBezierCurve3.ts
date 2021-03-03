@@ -26,7 +26,11 @@ export class QuadraticBezierCurve3 extends Curve<Vector3> {
             v1 = this.v1,
             v2 = this.v2;
 
-        point.setValue(QuadraticBezier(t, v0.x, v1.x, v2.x), QuadraticBezier(t, v0.y, v1.y, v2.y), QuadraticBezier(t, v0.z, v1.z, v2.z));
+        point.setValue(
+            QuadraticBezier(t, v0.x, v1.x, v2.x),
+            QuadraticBezier(t, v0.y, v1.y, v2.y),
+            QuadraticBezier(t, v0.z, v1.z, v2.z)
+        );
 
         return point;
     }
